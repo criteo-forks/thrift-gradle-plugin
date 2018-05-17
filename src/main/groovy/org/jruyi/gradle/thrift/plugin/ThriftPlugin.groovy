@@ -35,7 +35,11 @@ class ThriftPlugin implements Plugin<Project> {
 				main {
 					resources {
 						srcDirs srcDir
-						include '**/*.thrift'
+						// If the project don't already has includes, then all the resources will be included.
+						if (!includes.isEmpty()) {
+							// If the project already has includes, then enrich the include rules to include thrift files
+							include '**/*.thrift'
+						}
 					}
 				}
 			}
