@@ -13,12 +13,12 @@
  */
 
 plugins {
-	id 'com.gradle.plugin-publish' version '0.9.6'
+	id 'com.gradle.plugin-publish' version '0.14.0'
 }
 
 repositories {
 	maven {
-		url 'http://build-nexus.crto.in/repository/criteodev'
+		url 'http://build-nexus.crto.in/repository/maven'
 	}
 }
 
@@ -27,7 +27,7 @@ apply plugin: 'maven-publish'
 
 group = 'org.jruyi.gradle'
 archivesBaseName = 'thrift-gradle-plugin'
-version = '0.4.0'
+version = '0.4.2'
 description = 'A gradle plugin for compiling Thrift IDL files using thrift compiler'
 
 ext {
@@ -115,13 +115,6 @@ publishing {
 							distribution 'repo'
 						}
 					}
-					developers {
-						developer {
-							id 'agemocui'
-							name 'Agemo Cui'
-							email 'agemocui@jruyi.org'
-						}
-					}
 				}
 			}
 		}
@@ -129,8 +122,8 @@ publishing {
 }
 
 pluginBundle {
-	website = "$websiteUrl"
-	vcsUrl = "$vcsUrl"
+	website = 'https://github.com/jruyi/thrift-gradle-plugin'
+	vcsUrl = 'https://github.com/jruyi/thrift-gradle-plugin.git'
 	description = "${project.description}"
 	tags = ['thrift']
 

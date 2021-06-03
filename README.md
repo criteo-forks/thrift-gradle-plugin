@@ -1,7 +1,5 @@
 ## Gradle Thrift Plugin
 
-[![Build Status](https://travis-ci.org/jruyi/thrift-gradle-plugin.svg?branch=master)](https://travis-ci.org/jruyi/thrift-gradle-plugin)
-
 Gradle Thrift Plugin uses thrift compiler to compile Thrift IDL files.
 
 ### Usage
@@ -10,14 +8,14 @@ To use this plugin, add the following to your build script.
 
 ```groovy
 buildscript {
-	repositories {
-		maven {
-			url "https://plugins.gradle.org/m2/"
-		}
-	}
-	dependencies {
-		classpath "gradle.plugin.org.jruyi.gradle:thrift-gradle-plugin:0.4.0"
-	}
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.org.jruyi.gradle:thrift-gradle-plugin:0.4.2"
+    }
 }
 
 apply plugin: "org.jruyi.thrift"
@@ -27,7 +25,7 @@ Or for Gradle 2.1+:
 
 ```groovy
 plugins {
-	id "org.jruyi.thrift" version "0.4.0"
+    id "org.jruyi.thrift" version "0.4.2"
 }
 ```
 
@@ -48,8 +46,8 @@ The Thrift plugin adds compileThrift task which compiles Thrift IDL files using 
 Task Property     | Type                | Default Value
 ------------------|---------------------|---------------------------------------------------
 thriftExecutable  | String              | thrift
-sourceDir         | File                | src/main/thrift
-sourceItems       | Object...           | src/main/thrift
+sourceDir         | File                | _projectDir_/src/main/thrift
+sourceItems       | Object...           | _projectDir_/src/main/thrift
 outputDir         | File                | _buildDir_/generated-sources/thrift
 includeDirs       | Set<File>           | []
 generators        | Map<String, String> | ['java':''] if JavaPlugin is applied, otherwise []
@@ -74,10 +72,10 @@ In case a source is a directory, the directory will be scanned recursively for *
 
 ```groovy
 compileThrift {
-	recurse true
+    recurse true
 
-	generator 'html'
-	generator 'java', 'private-members'
+    generator 'html'
+    generator 'java', 'private-members'
 }
 ```
 

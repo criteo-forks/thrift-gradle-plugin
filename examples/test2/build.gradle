@@ -1,13 +1,20 @@
-plugins {
-  id "org.jruyi.thrift" version "0.3.1"
+buildscript {
+	repositories {
+		mavenLocal()
+		jcenter()
+	}
+	dependencies {
+		classpath 'org.jruyi.gradle:thrift-gradle-plugin:+'
+	}
 }
 
 apply plugin: 'java'
+apply plugin: 'org.jruyi.thrift'
 
 repositories {
-  jcenter()
+	jcenter()
 }
 
 dependencies {
-  compile group: 'org.apache.thrift', name: 'libthrift', version: '0.9.3'
+	compile 'org.apache.thrift:libthrift:0.14.1'
 }
