@@ -18,10 +18,12 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.Task
 import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.incremental.IncrementalTaskInputs
 
@@ -41,8 +43,8 @@ class CompileThrift extends DefaultTask {
 	@Input
 	Set<String> configurations = []
 
-	@Input
-	String thriftExecutable = 'thrift'
+	@InputDirectory
+    DirectoryProperty thriftBinaryFolder = project.objects.directoryProperty()
 
 	@Input
 	String tmpInBuildDir = 'thriftTmp'
@@ -73,10 +75,6 @@ class CompileThrift extends DefaultTask {
 
 	@Internal
 	boolean debug
-
-	def thriftExecutable(Object thriftExecutable) {
-		this.thriftExecutable = String.valueOf(thriftExecutable)
-	}
 
 	def sourceDir(Object sourceDir) {
 		sourceItems(sourceDir)
@@ -226,7 +224,8 @@ class CompileThrift extends DefaultTask {
 	}
 
 	def compile(String source) {
-		def cmdLine = [thriftExecutable, createGenFolder ? '-o' : '-out', outputDir.absolutePath]
+		def executable = thriftBinaryFolder.file(ThriftBinaryLocator.getRelativePath()).get().asFile.absolutePath
+		def cmdLine = [executable, createGenFolder ? '-o' : '-out', outputDir.absolutePath]
 		generators.each { generator ->
 			cmdLine << '--gen'
 			String cmd = generator.key.trim()

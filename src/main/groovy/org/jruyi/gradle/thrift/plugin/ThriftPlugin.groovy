@@ -16,13 +16,44 @@ package org.jruyi.gradle.thrift.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.tasks.Copy
 
 class ThriftPlugin implements Plugin<Project> {
 
 	public static final String COMPILE_THRIFT_TASK = 'compileThrift'
+	public static final String CHECK_THRIFT_TASK = 'checkThrift'
+
+	public static final String THRIFT_VERSION = '0.9'
 
 	@Override
 	void apply(Project project) {
+
+		project.configurations {
+			thriftExecutable {
+				description = "Configuration used to get a thrift executable"
+				canBeResolved = true
+				canBeConsumed = false
+			}
+		}
+
+		project.dependencies {
+            thriftExecutable("com.criteo.devtools:thrift:$THRIFT_VERSION") {
+				artifact {
+					name = "thrift"
+					type = "tgz"
+				}
+			}
+		}
+
+		project.repositories {
+			maven {
+				url 'http://build-nexus.crto.in/repository/criteo.thirdparty'
+				content {
+					// this repository *only* contains artifacts with group "com.criteo.devtools" module "thrift"
+					includeModule("com.criteo.devtools", "thrift")
+				}
+			}
+		}
 
 		def srcDir = "${project.projectDir}/src/main/thrift"
 		def dstDir = "${project.buildDir}/generated-sources/thrift"
@@ -30,6 +61,14 @@ class ThriftPlugin implements Plugin<Project> {
 		CompileThrift compileThrift = project.tasks.create(COMPILE_THRIFT_TASK, CompileThrift)
 		compileThrift.sourceDir(srcDir)
 		compileThrift.outputDir(dstDir)
+
+		def checkThriftTask = project.tasks.register(CHECK_THRIFT_TASK, Copy) {
+			from project.tarTree(project.configurations.thriftExecutable.singleFile)
+			into project.rootProject.layout.buildDirectory.dir('thrift')
+		}
+		compileThrift.thriftBinaryFolder.set(checkThriftTask.get().destinationDir)
+		compileThrift.dependsOn(checkThriftTask)
+
 		project.configure(project) {
 			sourceSets {
 				main {
