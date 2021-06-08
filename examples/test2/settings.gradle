@@ -1,0 +1,10 @@
+pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == 'org.jruyi.thrift') {
+                useModule('org.jruyi.gradle:thrift-gradle-plugin:0.0.dev')
+            }
+        }
+    }
+}
+includeBuild(file("../.."))

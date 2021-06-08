@@ -12,18 +12,10 @@
  * limitations under the License.
  */
 
-buildscript {
-	repositories {
-		mavenLocal()
-		jcenter()
-	}
-	dependencies {
-		classpath 'org.jruyi.gradle:thrift-gradle-plugin:+'
-	}
+plugins {
+	id "java"
+	id "org.jruyi.thrift" version "0.0.0-dev"
 }
-
-apply plugin: 'java'
-apply plugin: 'org.jruyi.thrift'
 
 group = 'org.jruyi.gradle'
 archivesBaseName = 'thrift-gradle-plugin-test'
@@ -47,6 +39,12 @@ repositories {
 
 dependencies {
 	compile 'org.apache.thrift:libthrift:0.9.3'
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of("8")
+	}
 }
 
 compileThrift {

@@ -68,19 +68,21 @@ class ThriftPlugin implements Plugin<Project> {
         compileThrift.thriftBinaryFolder.set(project.layout.projectDirectory.dir(checkThriftTask.map { it.destinationDir.absolutePath }))
         compileThrift.dependsOn(checkThriftTask)
 
-        project.configure(project) {
-            sourceSets {
-                main {
-                    resources {
-                        srcDirs srcDir
-                        // If the project don't already has includes, then all the resources will be included.
-                        if (!includes.isEmpty()) {
-                            // If the project already has includes, then enrich the include rules to include thrift files
-                            include '**/*.thrift'
-                        }
-                    }
-                }
-            }
-        }
+		project.pluginManager.withPlugin("java") {
+			project.configure(project) {
+				sourceSets {
+					main {
+						resources {
+							srcDirs srcDir
+							// If the project don't already has includes, then all the resources will be included.
+							if (!includes.isEmpty()) {
+								// If the project already has includes, then enrich the include rules to include thrift files
+								include '**/*.thrift'
+							}
+						}
+					}
+				}
+			}
+		}
     }
 }

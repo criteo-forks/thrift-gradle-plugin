@@ -15,11 +15,9 @@
 
 set -ev
 
-./gradlew publishToMavenLocal
+./gradlew -p examples/test1 --rerun-tasks clean check
 
-./gradlew -b examples/test1/build.gradle --refresh-dependencies --rerun-tasks clean check
-
-./gradlew -b examples/test2/build.gradle --refresh-dependencies --rerun-tasks clean check
+./gradlew -p examples/test2 --rerun-tasks clean check
 
 # build example again to make sure the download in the previous run works
-./gradlew -b examples/test2/build.gradle --refresh-dependencies --rerun-tasks check
+./gradlew -p examples/test2 --rerun-tasks check

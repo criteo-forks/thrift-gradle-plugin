@@ -1,15 +1,7 @@
-buildscript {
-	repositories {
-		mavenLocal()
-		jcenter()
-	}
-	dependencies {
-		classpath 'org.jruyi.gradle:thrift-gradle-plugin:+'
-	}
+plugins {
+	id "java"
+	id "org.jruyi.thrift" version "0.0.0-dev"
 }
-
-apply plugin: 'java'
-apply plugin: 'org.jruyi.thrift'
 
 repositories {
 	jcenter()
@@ -17,4 +9,10 @@ repositories {
 
 dependencies {
 	compile 'org.apache.thrift:libthrift:0.9.3'
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of("8")
+	}
 }
