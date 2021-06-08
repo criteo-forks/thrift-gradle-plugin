@@ -1,0 +1,2 @@
+includeBuild(file("."))
+project(":thirdparty:thrift-gradle-plugin").buildFileName = "moab-build.gradle"
