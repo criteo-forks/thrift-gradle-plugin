@@ -13,17 +13,17 @@
  */
 
 plugins {
-	id 'com.gradle.plugin-publish' version '0.14.0'
+	id 'groovy-gradle-plugin'
+	id 'com.gradle.plugin-publish' version '0.15.0'
+	id 'maven-publish'
 }
 
 repositories {
 	maven {
 		url 'http://build-nexus.crto.in/repository/maven'
+		allowInsecureProtocol = true
 	}
 }
-
-apply plugin: 'groovy'
-apply plugin: 'maven-publish'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -49,15 +49,18 @@ ext {
 	createdBy = "${System.getProperty('java.version')} (${System.getProperty('java.vm.vendor')})"
 }
 
-configurations.all {
-	transitive = false
+gradlePlugin {
+	plugins {
+		register("thriftPlugin") {
+			id = "org.jruyi.thrift"
+			implementationClass = "org.jruyi.gradle.thrift.plugin.ThriftPlugin"
+		}
+	}
 }
 
 dependencies {
-	compile gradleApi()
-	compile localGroovy()
-	compile "com.google.guava:guava:23.5-jre"
-	compile "org.codehaus.plexus:plexus-utils:3.1.0"
+	implementation "com.google.guava:guava:23.5-jre"
+	implementation "org.codehaus.plexus:plexus-utils:3.1.0"
 
 }
 

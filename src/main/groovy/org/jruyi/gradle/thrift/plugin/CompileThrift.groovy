@@ -29,7 +29,7 @@ import org.gradle.api.tasks.incremental.IncrementalTaskInputs
 
 import java.nio.file.Paths
 
-class CompileThrift extends DefaultTask {
+abstract class CompileThrift extends DefaultTask {
 
 	@InputFiles
 	Set<File> sourceItems = []
@@ -44,7 +44,7 @@ class CompileThrift extends DefaultTask {
 	Set<String> configurations = []
 
 	@InputDirectory
-    DirectoryProperty thriftBinaryFolder = project.objects.directoryProperty()
+    abstract DirectoryProperty getThriftBinaryFolder()
 
 	@Input
 	String tmpInBuildDir = 'thriftTmp'

@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-	compile 'org.apache.thrift:libthrift:0.9.3'
+	implementation 'org.apache.thrift:libthrift:0.9.3'
 }
 
 java {

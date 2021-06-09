@@ -47,6 +47,7 @@ class ThriftPlugin implements Plugin<Project> {
         project.repositories {
             maven {
                 url 'http://build-nexus.crto.in/repository/criteo.thirdparty'
+                allowInsecureProtocol = true
                 content {
                     // this repository *only* contains artifacts with group "com.criteo.devtools" module "thrift"
                     includeModule("com.criteo.devtools", "thrift")
